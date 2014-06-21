@@ -4,8 +4,8 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := ext2_uuid-prebuilt
-LOCAL_SRC_FILES := ../../androiduuid/libs/armeabi/libext2_uuid.so
-include $(PREBUILT_SHARED_LIBRARY)
+LOCAL_SRC_FILES := ../../androiduuid/obj/local/armeabi/libext2_uuid.a
+include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := crypto-prebuilt
@@ -50,8 +50,8 @@ src/messenger/store.c \
 src/object/object.c \
 src/javaJAVA_wrap.c    #INCLUDED 6/10 TO TRY SWIG BINDINGS.
 LOCAL_SHARED_LIBRARIES += crypto-prebuilt \
-ssl-prebuilt \
-ext2_uuid-prebuilt
+ssl-prebuilt
+LOCAL_STATIC_LIBRARIES += ext2_uuid-prebuilt
 LOCAL_LDLIBS := -llog
 
 include $(BUILD_SHARED_LIBRARY)
