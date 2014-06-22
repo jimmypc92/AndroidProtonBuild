@@ -52,11 +52,11 @@ import org.apache.qpid.proton.jni.SWIGTYPE_p_pn_data_t;
 import org.apache.qpid.proton.jni.SWIGTYPE_p_pn_message_t;
 import org.apache.qpid.proton.jni.pn_atom_t;
 import org.apache.qpid.proton.jni.pn_atom_t_u;
+import org.apache.qpid.proton.jni.pn_uuid_t;
 import org.apache.qpid.proton.jni.pn_bytes_t;
 import org.apache.qpid.proton.jni.pn_decimal128_t;
 import org.apache.qpid.proton.jni.pn_format_t;
 import org.apache.qpid.proton.jni.pn_type_t;
-import org.apache.qpid.proton.jni.pn_uuid_t;
 import org.apache.qpid.proton.message.Message;
 import org.apache.qpid.proton.message.MessageError;
 import org.apache.qpid.proton.message.MessageFormat;
@@ -84,7 +84,6 @@ public class JNIMessage implements Message
 
     public JNIMessage(SWIGTYPE_p_pn_message_t impl)
     {
-	//System.out.println("creating the JNIMessage in org.apache.qpid.proton.message.jni");
         _impl = impl;
         postDecode();
     }
@@ -762,8 +761,6 @@ public class JNIMessage implements Message
     public void setCorrelationId(Object correlationId)
     {
 
-
-    	
         if(_properties == null)
         {
             if(correlationId == null)
@@ -948,8 +945,6 @@ public class JNIMessage implements Message
             pn_type_t type = atom.getType();
             pn_atom_t_u value = atom.getU();
 
-		
-
             if(pn_type_t.PN_BINARY.equals(type))
             {
                 new Binary(Proton.pn_bytes_to_array(value.getAs_bytes()));
@@ -1050,15 +1045,9 @@ public class JNIMessage implements Message
             }
             else if(pn_type_t.PN_UUID.equals(type))
             {
-		
-		pn_uuid_t uuidT = value.getAs_uuid();
-		byte[] myBytes = uuidT.getBytes();
-//		for(byte b : myBytes) {
-//			System.out.println(String.format("%02X",b));
-//		}
-
-                //byte[] b = Proton.pn_bytes_to_array(value.getAs_bytes());  //value is a pn_atom_t_u
-                ByteBuffer buf = ByteBuffer.wrap(myBytes);
+                pn_uuid_t uuidT = value.getAs_uuid();
+		byte[] uuidBytes = uuidT.getBytes();
+		ByteBuffer buf = ByteBuffer.wrap(myBytes);
                 return new UUID(buf.getLong(), buf.getLong());
             }
 

@@ -42,18 +42,15 @@ import org.apache.qpid.proton.messenger.Tracker;
 class JNIMessenger implements Messenger
 {
     private SWIGTYPE_p_pn_messenger_t _impl;
-    private boolean _stopped;
 
     JNIMessenger()
     {
         this(java.util.UUID.randomUUID().toString());
-	
     }
 
     JNIMessenger(final String name)
     {
         _impl = Proton.pn_messenger(name);
-	_stopped = true;
     }
 
     @Override
@@ -135,7 +132,6 @@ class JNIMessenger implements Messenger
     {
         int err = Proton.pn_messenger_start(_impl);
         check(err);
-	_stopped = false;
     }
 
     @Override
@@ -143,15 +139,12 @@ class JNIMessenger implements Messenger
     {
         int err = Proton.pn_messenger_stop(_impl);
         check(err);
-	_stopped = true;
     }
 
     @Override
     public boolean stopped()
     {
-	return _stopped;
-	//The c dependent stopped was not working. A java version was implemented.
-        //return Proton.pn_messenger_stopped(_impl);
+        return Proton.pn_messenger_stopped(_impl);
     }
 
     @Override

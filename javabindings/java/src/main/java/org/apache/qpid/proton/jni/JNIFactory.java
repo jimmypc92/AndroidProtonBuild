@@ -35,7 +35,6 @@ public abstract class JNIFactory implements ProtonFactory
         {
             LOGGER.fine("About to load library " + libname);
         }
-	
 
         System.loadLibrary(libname);
 
