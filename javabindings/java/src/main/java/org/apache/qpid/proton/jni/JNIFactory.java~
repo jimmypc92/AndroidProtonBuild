@@ -37,8 +37,8 @@ public abstract class JNIFactory implements ProtonFactory
         }
 	
 	System.loadLibrary("ext2_uuid");
-	System.loadLibrary("ssl");
-	System.loadLibrary("crypto");
+	//System.loadLibrary("ssl");
+	//System.loadLibrary("crypto");
         System.loadLibrary(libname);
 
         if(LOGGER.isLoggable(Level.FINE))

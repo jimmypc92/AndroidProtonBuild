@@ -140,37 +140,21 @@ public class JNIMessage implements Message
 
     private void decodeProperties()
     {
-	//System.out.println("calling Properties in decodeProperties in JNIMessage.java");
         _properties = new Properties();
-	//System.out.println("calling Properties in setmessageid in JNIMessage.java");
         _properties.setMessageId(convert(Proton.pn_message_get_id(_impl)));
-	//System.out.println("calling Properties in setuserid in JNIMessage.java");
         _properties.setUserId(new Binary(Proton.pn_bytes_to_array(Proton.pn_message_get_user_id(_impl))));
-	//System.out.println("calling Properties in setto in JNIMessage.java");
         _properties.setTo(Proton.pn_message_get_address(_impl));
-	//System.out.println("calling Properties in setsubject in JNIMessage.java");
         _properties.setSubject(Proton.pn_message_get_subject(_impl));
-	//System.out.println("calling Properties in setreplyto in JNIMessage.java");
         _properties.setReplyTo(Proton.pn_message_get_reply_to(_impl));
-	//System.out.println("calling Properties in setcorellationid in JNIMessage.java");
         _properties.setCorrelationId(convert(Proton.pn_message_get_correlation_id(_impl)));
-	//System.out.println("calling Properties in setcontenttype in JNIMessage.java");
         _properties.setContentType(Symbol.valueOf(Proton.pn_message_get_content_type(_impl)));
-	//System.out.println("calling Properties in setencodingtype in JNIMessage.java");
         _properties.setContentEncoding(Symbol.valueOf(Proton.pn_message_get_content_encoding(_impl)));
-	//System.out.println("calling Properties in pnmessagegetexpirtytime in JNIMessage.java");
         long expiryTime = Proton.pn_message_get_expiry_time(_impl);
-	//System.out.println("calling Properties in setabsoluteexpiry in JNIMessage.java");
         _properties.setAbsoluteExpiryTime(expiryTime == 0l ? null : new Date(expiryTime));
-	//System.out.println("calling Properties in pnmessagegetcreationtime in JNIMessage.java");
         long creationTime = Proton.pn_message_get_creation_time(_impl);
-	//System.out.println("calling Properties in setcreationtime in JNIMessage.java");
         _properties.setCreationTime(creationTime == 0l ? null : new Date(creationTime));
-	//System.out.println("calling Properties in setgroupid in JNIMessage.java");
         _properties.setGroupId(Proton.pn_message_get_group_id(_impl));
-	//System.out.println("calling Properties in groupsequence in JNIMessage.java");
         long groupSequence = getGroupSequence();
-	//System.out.println("calling Properties in decodeProperties in JNIMessage.java");
         if(groupSequence != 0l || _properties.getGroupId() != null)
         {
             _properties.setGroupSequence(UnsignedInteger.valueOf(groupSequence));
@@ -1069,11 +1053,6 @@ public class JNIMessage implements Message
 		
 		pn_uuid_t uuidT = value.getAs_uuid();
 		byte[] myBytes = uuidT.getBytes();
-//		for(byte b : myBytes) {
-//			System.out.println(String.format("%02X",b));
-//		}
-
-                //byte[] b = Proton.pn_bytes_to_array(value.getAs_bytes());  //value is a pn_atom_t_u
                 ByteBuffer buf = ByteBuffer.wrap(myBytes);
                 return new UUID(buf.getLong(), buf.getLong());
             }
